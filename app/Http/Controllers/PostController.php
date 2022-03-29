@@ -70,10 +70,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
         return view('article.show', [
-            'post' => $post->with('author', 'category')->first(),
+            'post' => Post::where('id', $id)->with('author', 'category')->first(),
         ]);
     }
 
@@ -108,7 +108,7 @@ class PostController extends Controller
 
         if ($image = $request->file('image')) {
             if ($request->oldImage) {
-                File::delete($request->oldImage);
+                File::delete('post-images/' . $request->oldImage);
             }
             $destinationPath = 'post-images/';
             $postImg = date('YmdHis') . auth()->user()->id . "." . $image->getClientOriginalExtension();
@@ -135,11 +135,11 @@ class PostController extends Controller
     {
         $post = Post::where('id', $id)->first();
         if ($post->image) {
-            File::delete($post->image);
+            File::delete('post-images/' . $post->image);
         }
 
         Post::destroy($post->id);
 
-        return redirect('/dashboard/posts')->with('success', 'Post has been deleted!');
+        return redirect('/article')->with('success', 'Berhasil menghapus artikel!');
     }
 }
