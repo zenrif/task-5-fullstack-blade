@@ -42,7 +42,7 @@
         </tbody>
     </table>
     <div class="d-flex justify-content-center">
-        {{ $posts->links() }}
+        {{ $categories->links() }}
     </div>
 </div>
 @endsection

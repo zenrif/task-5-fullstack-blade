@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('category.index', [
-            'categories' => Category::all(),
+            'categories' => Category::latest()->paginate(5)->withQueryString(),
         ]);
     }
 
